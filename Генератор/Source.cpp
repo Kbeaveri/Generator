@@ -6,6 +6,16 @@
 using namespace std;
 
 
+int check(vector <int> arr, int n) {
+	for (int i = arr.size() - 1; i >= 0; i--) {
+		if (arr[i] != n) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+
 int main() {
 	int n, k;
 	cin >> k >> n;
@@ -14,37 +24,27 @@ int main() {
 		arr[i] = 1;
 	}
 	int j = 1;
-	int num = k - 2;
+	int num = k-1;
 	while (arr[0] <= n) {
-		if (arr[k - j] <= n) {
-			for (int i = 0; i < k; i++) {
-				cout << arr[i] << " ";
-			}
-			cout << endl;
-			arr[k - j]++;
+		for (int i = 0; i < k; i++) {
+			cout << arr[i] << " ";
+		}
+		cout << endl;
+		if (arr[num] < n) {
+			arr[num]++;
+			continue;
 		}
 		else {
-			if (arr[k - j-1] == n) {
-				while (arr[k - j - 1] == n&&j!=k) {
-					j--;
-				}
-				if (j == k) {
-					break;
-				}
-				else {
-					arr[k - j - 1]++;
-					for (int i = k - j; i < k; i++) {
-						arr[i] = 1;
-					}
-					j = 1;
-				}
-			}
-			else {
-				for (int i = k - j; i < k; i++) {
+			if (check(arr, n) != -1) {
+				num = check(arr, n);
+				arr[num]++;
+				for (int i = num + 1; i < k; i++) {
 					arr[i] = 1;
 				}
-				arr[k - j - 1]++;
-				j = 1;
+				num = k - 1;
+			}
+			else {
+				return 0;
 			}
 		}
 	}
